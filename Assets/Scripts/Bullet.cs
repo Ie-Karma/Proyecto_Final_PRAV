@@ -31,9 +31,20 @@ public class Bullet : MonoBehaviour
 
 		if (damageable != null)
 		{
+			if (other.GetComponent<Player>())
+			{
+				if (isEnemy)
+				{
+					damageable.TakeDamage(damage);
+					ReturnToPool();
+				}
+			}else if (!isEnemy) {
+
+				damageable.TakeDamage(damage);
+				ReturnToPool();
+			}
 			// Aplicar daño a la criatura y devolver la bala al pool
-			damageable.TakeDamage(damage);
-			ReturnToPool();
+
 		}
 	}
 

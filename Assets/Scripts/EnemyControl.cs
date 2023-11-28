@@ -7,7 +7,6 @@ public class EnemyControl : MonoBehaviour
 	private Creature enemyCreature;
 	private Transform playerTransform;
 
-	public float chaseDistance = 10f;
 	public float stopDistance = 5f;
 	private float timeBetweenShots;
 	private float shotTimer;
@@ -29,33 +28,31 @@ public class EnemyControl : MonoBehaviour
 	{
 		float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
-		if (distanceToPlayer <= chaseDistance)
+		// Configurar el destino del NavMeshAgent al jugador
+		navMeshAgent.SetDestination(playerTransform.position);
+
+		// Rotar para mirar al jugador
+		RotateTowardsPlayer();
+
+		shotTimer += Time.deltaTime;
+
+		if (shotTimer >= timeBetweenShots)
 		{
-			// Configurar el destino del NavMeshAgent al jugador
-			navMeshAgent.SetDestination(playerTransform.position);
-
-			// Rotar para mirar al jugador
-			RotateTowardsPlayer();
-
-			shotTimer += Time.deltaTime;
-
-			if (shotTimer >= timeBetweenShots)
-			{
-				Shoot();
-				shotTimer = 0f;
-			}
-
-			if (distanceToPlayer <= stopDistance)
-			{
-				navMeshAgent.isStopped = true;
-
-
-			}
-			else
-			{
-				navMeshAgent.isStopped = false;
-			}
+			Shoot();
+			shotTimer = 0f;
 		}
+
+		if (distanceToPlayer <= stopDistance)
+		{
+			navMeshAgent.isStopped = true;
+
+
+		}
+		else
+		{
+			navMeshAgent.isStopped = false;
+		}
+
 	}
 
 	private void RotateTowardsPlayer()
