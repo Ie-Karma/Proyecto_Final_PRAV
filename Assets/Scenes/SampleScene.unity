@@ -1371,6 +1371,8 @@ GameObject:
   - component: {fileID: 2122032223}
   - component: {fileID: 2122032222}
   - component: {fileID: 2122032224}
+  - component: {fileID: 2122032225}
+  - component: {fileID: 2122032226}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1401,14 +1403,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2122032221}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: -10.557434, y: -1.4508694, z: 3.7719965}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &2122032224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1435,6 +1437,56 @@ MonoBehaviour:
   - {fileID: 6751829823610531, guid: a62aab91a3eceec4b95ba2648c2556fb, type: 3}
   - {fileID: 7993204428948357718, guid: 2d741e375f0c1614cb741456df2acf94, type: 3}
   player: {fileID: 275265344}
+--- !u!114 &2122032225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122032221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769d193695c6d754aaf26958cdf2a72e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapSize: 200
+  scale: 50
+  heightMultiplier: -1
+  material: {fileID: 2100000, guid: cecc868409c463245890e0fabf3fcb83, type: 2}
+--- !u!218 &2122032226
+Terrain:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122032221}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_TerrainData: {fileID: 0}
+  m_TreeDistance: 5000
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 80
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_StaticShadowCaster: 0
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 0}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ScaleInLightmap: 1
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_RenderingLayerMask: 1
+  m_AllowAutoConnect: 0
 --- !u!1 &2125212455
 GameObject:
   m_ObjectHideFlags: 0
