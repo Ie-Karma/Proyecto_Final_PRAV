@@ -10,14 +10,7 @@ public class Standard : Creature
 		// Inicialización específica del Estándar
 		health = 60f;
 		speed = 4f;
-		shootSpeed = 1f;
+		shootSpeed = 2f;
 		damagePerShot = 20f;
-	}
-
-	protected override void Update()
-	{
-		base.Update();
-		// Lógica específica del Estándar
-		// Puedes agregar comportamientos únicos aquí
 	}
 }

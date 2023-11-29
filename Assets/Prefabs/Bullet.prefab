@@ -111,6 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c2c998b2d66704390827e36f74d81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMat: {fileID: 2100000, guid: 7ab3a0a1d4e6c2842ad65cec1210a7d4, type: 2}
+  enemyMat: {fileID: 2100000, guid: f3be77ad09b48114188a32463e76aa93, type: 2}
 --- !u!54 &3468641630993424974
 Rigidbody:
   m_ObjectHideFlags: 0

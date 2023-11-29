@@ -6,6 +6,8 @@ public class EnemySpawner : MonoBehaviour
 	public Transform[] spawnPoints;
 	public GameObject[] enemyPrefabs; // Prefabs de los enemigos
 	public Player player;
+	public int maxDelay = 5;
+	public int minDelay = 1;
 
 	private void Start()
 	{
@@ -18,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
 		{
 			int playerLevel = player.level;
 			int numEnemies = Mathf.Clamp(playerLevel, 1, 5);
-			float spawnDelay = Mathf.Max(5 - playerLevel, 1);
+			float spawnDelay = Mathf.Max(maxDelay - playerLevel, minDelay);
 
 			for (int i = 0; i < numEnemies; i++)
 			{

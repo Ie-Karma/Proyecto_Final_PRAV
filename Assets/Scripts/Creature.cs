@@ -1,4 +1,7 @@
+using System;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 // Interfaz para objetos dañables
 public interface IDamageable
@@ -6,38 +9,38 @@ public interface IDamageable
 	void TakeDamage(float damage);
 }
 
-// Clase base de la criatura
+public interface IDeathObserver
+{
+	void OnCreatureDeath(Creature creature);
+}
+
+public class DeathNotifier
+{
+	public static UnityEvent HasDied = new UnityEvent();
+
+	public void NotifyDeath(Creature creature)
+	{
+		HasDied.Invoke();
+	}
+}
+
 public abstract class Creature : MonoBehaviour, IDamageable
 {
-	// Propiedades comunes para todas las criaturas
 	public float health;
 	public float maxHealth = 100f;
 	public float speed = 5f;
 	public float shootSpeed = 1f;
 	public float damagePerShot = 10f;
 
-	// Evento para manejar la muerte de la criatura
-	public delegate void CreatureEventHandler(Creature creature);
-	public event CreatureEventHandler OnDeath;
+	protected DeathNotifier deathNotifier = new DeathNotifier();
 
-	// Referencia al GameManager para acceder a la pool de balas
-	private static GameManager gameManager;
-
-	// Inicialización estática para asignar el GameManager
-	static Creature()
-	{
-	}
+	protected GameManager gameManager;
 
 	protected virtual void Start()
 	{
 		health = maxHealth;
 		gameManager = GameManager.Instance;
 
-	}
-
-	protected virtual void Update()
-	{
-		// Lógica de actualización común para todas las criaturas
 	}
 
 	public void TakeDamage(float damage)
@@ -52,18 +55,14 @@ public abstract class Creature : MonoBehaviour, IDamageable
 
 	protected virtual void Die()
 	{
-		// Lógica de muerte común para todas las criaturas
-		OnDeath?.Invoke(this);
+		Debug.Log("Creature died");
+		deathNotifier.NotifyDeath(this);
 		Destroy(gameObject);
 	}
-
-	// Método para que la criatura dispare una bala
 	public void Shoot(bool isEnemy)
 	{
-		// Obtener una bala de la pool del GameManager
 		Bullet bullet = gameManager.GetBulletFromPool();
 
-		// Configurar la bala con la información de la criatura que la dispara
-		bullet.SetProperties(transform.position, transform.forward, isEnemy, damagePerShot);
+		bullet.SetProperties(transform.position, transform.forward, isEnemy, damagePerShot, shootSpeed);
 	}
 }

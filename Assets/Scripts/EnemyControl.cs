@@ -21,7 +21,8 @@ public class EnemyControl : MonoBehaviour
 		navMeshAgent.speed = enemyCreature.speed;
 
 		timeBetweenShots = 1f / enemyCreature.shootSpeed;
-		shotTimer = 0f;
+		shotTimer = Random.Range(0f, timeBetweenShots);
+
 	}
 
 	private void Update()
@@ -39,7 +40,7 @@ public class EnemyControl : MonoBehaviour
 		if (shotTimer >= timeBetweenShots)
 		{
 			Shoot();
-			shotTimer = 0f;
+			shotTimer = Random.Range(-timeBetweenShots, timeBetweenShots); ;
 		}
 
 		if (distanceToPlayer <= stopDistance)
@@ -57,14 +58,12 @@ public class EnemyControl : MonoBehaviour
 
 	private void RotateTowardsPlayer()
 	{
-		// Obtener la dirección hacia el jugador, pero solo en el plano horizontal (Y)
+		// Obtener la direccion hacia el jugador, pero solo en el plano horizontal (Y)
 		Vector3 directionToPlayer = playerTransform.position - transform.position;
 		directionToPlayer.y = 0f;
 
-		// Calcular la rotación para mirar al jugador
 		Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
 
-		// Aplicar la rotación suavizada solo en el eje Y
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f), Time.deltaTime * navMeshAgent.angularSpeed);
 	}
 

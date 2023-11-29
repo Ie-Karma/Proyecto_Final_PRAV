@@ -37,6 +37,8 @@ public class PlayerControl : MonoBehaviour
 		{
 			Shoot();
 			shotTimer = 0f;  // Reiniciar el temporizador después de un disparo
+			timeBetweenShots = 1f / player.shootSpeed;
+
 		}
 	}
 

@@ -10,14 +10,7 @@ public class Defender : Creature
 		// Inicialización específica del Defensor
 		health = 80f;
 		speed = 3f;
-		shootSpeed = 0.5f;
+		shootSpeed = 1f;
 		damagePerShot = 15f;
-	}
-
-	protected override void Update()
-	{
-		base.Update();
-		// Lógica específica del Defensor
-		// Puedes agregar comportamientos únicos aquí
 	}
 }

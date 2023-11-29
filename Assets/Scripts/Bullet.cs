@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-	private bool isEnemy; // Indica si la bala fue disparada por un enemigo
-	private float damage; // Daño que causará la bala
-	private float speed = 10f; // Velocidad de la bala
+	private bool isEnemy;
+	private float damage;
+	public Material playerMat, enemyMat;
 
 	private void Start()
 	{
 		// Usar un temporizador para devolver la bala al pool después de 2 segundos
-		Invoke("ReturnToPool", 2f);
+		Invoke("ReturnToPool", 5f);
 	}
 
 	// Método para configurar las propiedades de la bala al ser disparada
-	public void SetProperties(Vector3 position, Vector3 direction, bool isEnemy, float damage)
+	public void SetProperties(Vector3 position, Vector3 direction, bool isEnemy, float damage, float speed)
 	{
 		transform.position = position;
 		this.isEnemy = isEnemy;
@@ -21,7 +21,18 @@ public class Bullet : MonoBehaviour
 
 		// Aplicar velocidad a la bala
 		Rigidbody rb = GetComponent<Rigidbody>();
-		rb.velocity = direction.normalized * speed;
+		rb.velocity = direction.normalized * speed * 5;
+
+		MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+		if (isEnemy)
+		{
+			meshRenderer.material = enemyMat;
+		}
+		else
+		{
+			meshRenderer.material = playerMat;
+		}
+
 	}
 
 	private void OnTriggerEnter(Collider other)
