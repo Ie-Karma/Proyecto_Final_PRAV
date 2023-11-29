@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEngine.Jobs;
+using UnityEditor.AI;
 
 public class ProceduralMapGenerator : MonoBehaviour
 {
@@ -21,13 +21,17 @@ public class ProceduralMapGenerator : MonoBehaviour
 	{
 		heightMap = new NativeArray<float>(mapSize * mapSize, Allocator.Persistent);
 
+		// Generar una semilla aleatoria
+		float randomSeed = Random.Range(0f, 100f);
+
 		// Crear y programar el Job para generar el mapa
 		MapGenerationJob mapGenerationJob = new MapGenerationJob
 		{
 			heightMap = heightMap,
 			mapSize = mapSize,
 			scale = scale,
-			heightMultiplier = heightMultiplier
+			heightMultiplier = heightMultiplier,
+			randomSeed = randomSeed
 		};
 
 		JobHandle mapJobHandle = mapGenerationJob.Schedule(heightMap.Length, 32);
@@ -35,12 +39,13 @@ public class ProceduralMapGenerator : MonoBehaviour
 		// Esperar a que el Job termine antes de continuar
 		mapJobHandle.Complete();
 
-		// Aplicar el mapa a la escena (este es solo un ejemplo, ajusta según tus necesidades)
+		// Aplicar el mapa a la escena
 		ApplyMapToScene();
 
 		// Liberar la memoria de NativeArray
 		heightMap.Dispose();
 	}
+
 	private void ApplyMapToScene()
 	{
 		Terrain terrain = GetComponent<Terrain>();
@@ -71,13 +76,14 @@ public class ProceduralMapGenerator : MonoBehaviour
 		// Aplicar el nuevo mapa de alturas al TerrainData
 		terrainData.SetHeights(0, 0, heightMapCopy);
 
-
 		terrain.materialTemplate = material;
 
 		TerrainCollider terrainCollider = gameObject.AddComponent<TerrainCollider>();
 		terrainCollider.terrainData = terrainData;
-	}
 
+		NavMeshBuilder.ClearAllNavMeshes();
+		NavMeshBuilder.BuildNavMesh();
+	}
 
 	// Job que realiza la generación del mapa en paralelo
 	public struct MapGenerationJob : IJobParallelFor
@@ -86,6 +92,7 @@ public class ProceduralMapGenerator : MonoBehaviour
 		public int mapSize;
 		public float scale;
 		public float heightMultiplier;
+		public float randomSeed;
 
 		public void Execute(int index)
 		{
@@ -93,10 +100,23 @@ public class ProceduralMapGenerator : MonoBehaviour
 			int x = index % mapSize;
 			int y = index / mapSize;
 
-			// Aplicar el ruido Perlin para la generación del terreno
-			float xCoord = (float)x / mapSize * scale;
-			float yCoord = (float)y / mapSize * scale;
+			// Aplicar el ruido Perlin para la generación del terreno con la semilla aleatoria
+			float xCoord = (float)x / mapSize * scale + randomSeed;
+			float yCoord = (float)y / mapSize * scale + randomSeed;
 			float heightValue = Mathf.PerlinNoise(xCoord, yCoord) * heightMultiplier;
+
+			// ... (resto del código)
+			// Agregar variación en la región usando varios niveles
+			if (heightValue < 0.4f)
+				heightValue *= 0.5f;
+			else if (heightValue < 0.6f)
+				heightValue += 1f;
+			else if (heightValue < 0.7f)
+				heightValue += 2f;
+			else if (heightValue < 0.8f)
+				heightValue += 3f;
+			else
+				heightValue += 5f;
 
 			// Asignar el valor al mapa de alturas
 			heightMap[index] = heightValue;
