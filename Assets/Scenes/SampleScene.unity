@@ -2240,7 +2240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapSize: 300
-  scale: 10
+  scale: 15
   heightMultiplier: 1
   material: {fileID: 2100000, guid: 95fadf3eac5c0b7498e69c904a263e96, type: 2}
 --- !u!218 &2122032226
